@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import SmallCard from '../components/SmallCard';
 import MediumCard from '../components/MediumCard';
 import LargeCard from '../components/LargeCard'
+import Footer from '../components/Footer'
 
 type Props = {
   exploreData: any,
@@ -61,6 +62,8 @@ function Home({ exploreData, cardsData }: Props) {
           buttonText='Get Inspired'
         />
       </main>
+
+      <Footer />
     </div>
   );
 }
