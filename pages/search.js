@@ -26,6 +26,8 @@ function Search({ searchResults }) {
     }
   }
 
+  console.log(searchResults)
+
   return (
     <div>
         <Header placeholder={`${location} | ${range} | ${noOfGuests} ${formatNoOfGuests()}`} />
