@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import InfoCard from '../components/InfoCard';
-
+import { useState } from 'react';
 
 function Search({ searchResults }) {
   const router = useRouter();
@@ -25,12 +25,65 @@ function Search({ searchResults }) {
       )
     }
   }
+  const [searchInput, setSearchInput] = useState('');
 
-  console.log(searchResults)
+  const selectionRange = {
+      startDate: startDate,
+      endDate: endDate,
+      key: 'selection'
+  };
+
+  const handleSelect = (ranges) => {
+    setStartDate(ranges.selection.startDate);
+    setEndDate(ranges.selection.endDate);
+  };
+
+  const resetInput = () => {
+      setSearchInput('')
+  };
+
+  const search = () => {
+      router.push({
+          pathname: '/search',
+          query: {
+              location: searchInput,
+              startDate: startDate.toISOString(),
+              endDate: endDate.toISOString(),
+              noOfGuests,
+          },
+      });
+  };
 
   return (
     <div>
         <Header placeholder={`${location} | ${range} | ${noOfGuests} ${formatNoOfGuests()}`} />
+
+        {searchInput && (
+            <div className='flex flex-col col-span-3 mx-auto'>
+                <DateRangePicker 
+                    ranges={[selectionRange]}
+                    minDate={new Date()}
+                    rangeColors={['#fd5b61']}
+                    onChange={handleSelect}
+                />
+                <div className='flex items-center border-b mb-4'>
+                    <h2 className='text-2xl flex-grow font-semibold'>Number of Guests
+                    </h2>
+                    <UsersIcon className='h-5' />
+                    <input 
+                        value={noOfGuests} 
+                        onChange={(e) => setNoOfGuests(e.target.value)} type='number' 
+                        min={1}
+                        className='w-12 pl-2 text-lg outline-none text-red-400' 
+                    />
+                </div>
+                <div className='flex'>
+                    <button onClick={resetInput} className='flex-grow text-gray-500'>Cancel</button>
+                    <button className='flex-grow text-red-400' onClick={search}
+                    >Search</button>
+                </div>
+            </div>
+        )}
 
         <main className='flex'>
             <section className='flex-grow pt-14 px-6'>

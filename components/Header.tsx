@@ -50,8 +50,6 @@ function Header({ placeholder }: Props) {
       });
   };
 
-  console.log(search)
-
   return (
     <header className='sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-5 md:px-10' >
         {/* Left */}
@@ -109,7 +107,7 @@ function Header({ placeholder }: Props) {
                 </div>
                 <div className='flex'>
                     <button onClick={resetInput} className='flex-grow text-gray-500'>Cancel</button>
-                    <button             className='flex-grow text-red-400'          onClick={search}
+                    <button className='flex-grow text-red-400' onClick={search}
                     >Search</button>
                 </div>
             </div>
