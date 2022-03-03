@@ -1,4 +1,4 @@
-import ReactMapGL from 'react-map-gl'
+import ReactMapGL, { Marker, Popup } from 'react-map-gl'
 import { useState } from 'react'
 import { getCenter } from 'geolib'
 
@@ -10,6 +10,8 @@ function Map({ searchResults }) {
       longtitude: result.long,
       latitude: result.lat,
   }))
+  
+  console.log(coordinates)
 
   const center = getCenter(coordinates);
 
@@ -29,7 +31,22 @@ function Map({ searchResults }) {
         mapboxAccessToken={process.env.mapbox_key}
         {...viewport}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
-    ></ReactMapGL>
+    >
+      {/* {searchResults.map((result) => (
+        <div key={result.long}>
+          <Marker
+            longtitude={result.long}
+            latitude={result.lat}
+            offsetLeft={-20}
+            offsetTop={-10}
+          >
+            <p className='cursor-pointer text-2xl animate-bounce'>📌</p>
+          </Marker>
+
+        </div>
+      ))} */}
+
+    </ReactMapGL>
   )
 }
 
