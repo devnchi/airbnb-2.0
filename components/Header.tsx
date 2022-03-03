@@ -10,14 +10,18 @@ import {
 import 'react-date-range/dist/styles.css' // main css file
 import 'react-date-range/dist/theme/default.css' // theme css file
 import { DateRangePicker } from 'react-date-range'
+import { useRouter } from 'next/router'
 
-type Props = {}
+type Props = {
+    placeholder: string
+}
 
-function Header({}: Props) {
-  const [searchInput, setSearchInput] = useState<string>('');
+function Header({ placeholder }: Props) {
+  const [searchInput, setSearchInput] = useState<any>('');
   const [startDate, setStartDate] = useState<any>(new Date());
   const [endDate, setEndDate] = useState<any>(new Date());
   const [noOfGuests, setNoOfGuests] = useState<any>(1);
+  const router = useRouter();
 
   const selectionRange = {
       startDate: startDate,
@@ -34,10 +38,26 @@ function Header({}: Props) {
       setSearchInput('')
   };
 
+  const search = () => {
+      router.push({
+          pathname: '/search',
+          query: {
+              location: searchInput,
+              startDate: startDate.toISOString(),
+              endDate: endDate.toISOString(),
+              noOfGuests,
+          },
+      });
+  };
+
+  console.log(search)
+
   return (
     <header className='sticky top-0 z-50 grid grid-cols-3 bg-white shadow-md p-5 md:px-10' >
         {/* Left */}
-        <div className='relative flex items-center h-10 cursor-pointer my-auto'>
+        <div 
+            onClick={() => router.push('/')} 
+            className='relative flex items-center h-10 cursor-pointer my-auto'>
             <Image
                 src='https://links.papareact.com/qd3'
                 layout='fill'
@@ -52,9 +72,10 @@ function Header({}: Props) {
                 onChange={(e) => setSearchInput(e.target.value)}
                 className='flex-grow pl-5 bg-transparent outline-none text-sm text-gray-600 placeholder-gray-400' 
                 type='text' 
-                placeholder='Start your search' 
+                placeholder={placeholder || 'Start your search'}
             />
-            <SearchIcon className='hidden md:inline-flex h-8 bg-red-400 text-white rounded-full p-2 cursor-pointer md:mx-2'/>
+            <SearchIcon 
+                className='hidden md:inline-flex h-8 bg-red-400 text-white rounded-full p-2 cursor-pointer md:mx-2'/>
         </div>
         {/* Right */}
         <div className='flex items-center space-x-4 justify-end text-gray-500'>
@@ -88,7 +109,8 @@ function Header({}: Props) {
                 </div>
                 <div className='flex'>
                     <button onClick={resetInput} className='flex-grow text-gray-500'>Cancel</button>
-                    <button className='flex-grow text-red-400'>Search</button>
+                    <button             className='flex-grow text-red-400'          onClick={search}
+                    >Search</button>
                 </div>
             </div>
         )}
