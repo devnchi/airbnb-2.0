@@ -3,8 +3,8 @@ import Header from '../components/Header';
 import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import InfoCard from '../components/InfoCard';
-import { useState } from 'react';
 import DatePicker from '../components/DatePicker';
+import Map from '../components/Map'
 
 function Search({ searchResults }) {
   const router = useRouter();
@@ -70,9 +70,9 @@ function Search({ searchResults }) {
                 </div>
             </section>
 
-            {/* <section>
-                <Map />
-            </section> */}
+            <section className='hidden xl:inline-flex xl:min-w-[540px]'>
+                <Map searchResults={searchResults} />
+            </section>
         </main>
 
         <Footer />
